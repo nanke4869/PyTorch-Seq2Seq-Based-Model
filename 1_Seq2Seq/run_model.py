@@ -173,6 +173,8 @@ if __name__ == "__main__":
     TRG_PAD_IDX = TRG.vocab.stoi[TRG.pad_token]
     criterion = nn.CrossEntropyLoss(ignore_index=TRG_PAD_IDX)
 
+
+    # ///////////////train///////////////////////
     for epoch in range(N_EPOCHS):
         start_time = time.time()
 
@@ -191,6 +193,14 @@ if __name__ == "__main__":
         print(f'\tTrain Loss: {train_loss:.3f} | Train PPL: {math.exp(train_loss):7.3f}')
         print(f'\t Val. Loss: {valid_loss:.3f} |  Val. PPL: {math.exp(valid_loss):7.3f}')
 
+    model.load_state_dict(torch.load('tut1-model.pt'))
+
+    test_loss = evaluate(model, test_iterator, criterion)
+
+    print(f'| Test Loss: {test_loss:.3f} | Test PPL: {math.exp(test_loss):7.3f} |')
+
+
+    # ///////////////////test///////////////////////
     model.load_state_dict(torch.load('tut1-model.pt'))
 
     test_loss = evaluate(model, test_iterator, criterion)
